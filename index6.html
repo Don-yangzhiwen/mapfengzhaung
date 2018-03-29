@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    #container {
+      width: 80%;
+      height: 80%;
+      margin: 20px;
+    }
+
+    .anchorBL {
+      display: none;
+    }
+
+    .context_menu {
+      margin: 2px;
+      padding: 2px;
+      list-style-type: none;
+      position: relative;
+      background-color: rgb(255, 255, 255);
+      border: 1px solid rgb(175, 175, 175);
+      border-radius: 5px;
+      box-shadow: rgb(153, 153, 153) 2px 2px 8px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .context_menu li {
+      text-indent: 0.5em;
+      color: blue;
+      font-size: 13px;
+      font-family: verdana;
+      height: 20px;
+      line-height: 20px;
+      word-break: break-all;
+      white-space: nowrap;
+    }
+
+    .context_menu li.split_line {
+      border-bottom-color: rgb(204, 204, 204);
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+
+  </div>
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=pRYxm2ZLEwgpqGEVlfTQsZ8EIm5GG3o9"></script>
+  <!-- <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&key=5d750c5c10bc16c36c3e74bb84a06123&plugin=AMap.PolyEditor,AMap.ControlBar,AMap.MouseTool"></script> -->
+
+  <script src="./jquery.min.js"></script>
+  <!-- <script src="./index6.js"></script> -->
+  <script src="./baiduMap.js"></script>
+  <!-- <script src="./gaodeMap.js"></script> -->
+  <script>
+    $(function () {
+
+      //  百度地图的参数
+      var option = {
+        element: 'container', //  容器的id名,默认 container
+        point: { //  中心地理坐标点
+          lng: '115.404', //  经度,默认 116.404
+          lat: '39.915' //  纬度,默认 39.915
+        },
+        zoom: 15, //  地图缩放级别,默认 15
+        control: { //  自定义控件
+          // nav: true, // 平移缩放控件,默认为true
+          // navAnchor: 0, //  平移缩放控件的位置,默认为左上方,0为左上角，1为右上角，2为左下角，3为右下角
+          // navType: 0, //  修改控件配置,默认为显示完整的平移缩放控件,默认0(0-3)
+          // sca: true, // 比例尺控件,默认为true
+          // scaAnchor: 2, //  比例尺控件的位置,默认为左下方
+          ove: true, // 缩略地图控件,默认为true
+          oveAnchor: 3, // 缩略地图控件的位置,默认为右下方
+          // map: true, // 地图类型控件,默认为true
+          // mapAnchor: 1, // 缩略地图控件的位置,默认为右上方
+          geo: true, // 定位控件,默认为true
+          // geoAnchor: 2, // 缩略地图控件的位置,默认为左下方
+        },
+        // enZoom: true, // 启动鼠标滚轮缩放地图,默认true
+        tagging: {
+          marker: true, // 创建标注,默认false
+          // setAnimation: true,// 给 标注跳转的动画,默认false
+          // icon: 'http://lbsyun.baidu.com/jsdemo/img/fox.gif', //  自定义的标注图标
+          // iconSize: { // 自定义的标注图标的大小
+          //   width: 170,
+          //   height: 50
+          // },
+          // dragging: true, // 是否可以拖拽,默认false
+          //  是否有文本标注
+          // label: {
+          // text: '123', // 标注内容
+          // offset: {  //设置文本偏移量
+          //   left: 20,
+          //   top: -5
+          // },
+          // setStyle: {
+          //   color: 'blue',
+          //   fontSize: '16px',
+          //   borderColor: '#000'
+          // }
+          // }
+          //  点击标注获取覆盖物的信息
+          // getInfo: function (data) {
+          //   console.log(data);
+          // }
+        },
+        polyline: {
+          //  获取的经纬度数据
+          data: [{
+            lng: '116.395',
+            lat: '39.910'
+          }, {
+            lng: '116.405',
+            lat: '39.920'
+          }, {
+            lng: '116.425',
+            lat: '39.920'
+          }],
+          morePoint: true, // 是否添加多个标注,默认false
+          strokeColor: 'red', // 折线的颜色,默认blue
+          strokeWeight: 2, //  折线的宽度,默认2
+          strokeOpacity: 0.5, //  折线的透明度,默认0.5
+          editing: true, //  开启线、面编辑功能,默认false
+          label: { // 标注功能
+            text: ['datas'], // 标注内容
+            offset: { //设置文本偏移量
+              left: -15,
+              top: -35
+            },
+            setStyle: {
+              color: '#666',
+              // fontSize: '12px',
+              borderColor: '#999',
+              padding: '5px'
+            }
+          },
+          //  点击标注获取覆盖物的信息
+          getInfo: function (data) {
+            // var datas = data[0].address;
+            // console.log(data[0].address);
+          }
+        }
+      };
+      var abc = new BaiduMap(option);
+
+      //  高德地图的参数
+
+    });
+  </script>
+</body>
+
+</html>
